@@ -24,10 +24,10 @@ var transaction;
     transactionSafeJSON.textContent = urlParams.get('transactionSafeJSON');
     transaction = Transaction.deserializeFromJSON(transactionSafeJSON.textContent);
     content.style='';
-    loading.styel='display:none';
+    loading.style='display:none';
   }catch(e){
     content.style='';
-    loading.styel='display:none';
+    loading.style='display:none';
     content.textContent='Invalid transaction format in url param transactionSafeJSON, or it is missing. This page is exclusive to sign transactions.'
   }
 })();
