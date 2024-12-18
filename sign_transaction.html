@@ -10,9 +10,21 @@ var networkId = "testnet-11";
 var rpc;
 
 globalThis.WebSocket = require('websocket').w3cwebsocket;
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+
+transactionSafeJSON = document.getElementById();
+transactionSafeJSON.textContent = "bla";
+
+    
   </script>
 </head>
 <body>
+The following transaction was sent to be signed:
+<textarea style="width:100%" id="transactionSafeJSON">
+  
+</textarea>
     
 </body>
 
