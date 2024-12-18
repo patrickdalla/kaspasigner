@@ -7,9 +7,6 @@ import * as kaspa from "./kaspa/kaspa.js";
 
 let {Transaction} = kaspa;
 
-var networkId = "testnet-11";	
-var rpc;
-
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
@@ -25,6 +22,26 @@ var transaction;
     transaction = Transaction.deserializeFromSafeJSON(transactionSafeJSON.textContent);
     content.style='';
     loading.style='display:none';
+
+    window.networkId = "testnet-11";
+		const encoding = "borsh";
+
+		if(!window.rpc){
+			window.rpc = new RpcClient({
+				resolver: new Resolver(),
+				networkId: window.networkId,
+			});
+			console.log(`Connecting to ${window.rpc.url}`);
+			await window.parent.rpc.connect();
+			console.log(`Connected to ${window.rpc.url}`);
+		}
+		rpc = window.rpc;
+		let { isSynced } = await rpc.getServerInfo();
+		if (!isSynced) {
+			console.error("Please wait for the node to sync");
+			rpc.disconnect();
+			return;
+		}    
   }catch(e){
     content.style='';
     loading.style='display:none';
@@ -32,6 +49,7 @@ var transaction;
   }
 })();
 
+    
 function sign(){
   try{
     var privKeyStr = document.getElementById('privkey').textContent;
