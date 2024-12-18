@@ -20,28 +20,27 @@ var transaction;
     const wasm = await kaspa.default("./kaspa/kaspa_bg.wasm");
     transactionSafeJSON.textContent = urlParams.get('transactionSafeJSON');
     transaction = Transaction.deserializeFromSafeJSON(transactionSafeJSON.textContent);
+
+    window.networkId = "testnet-11";const encoding = "borsh";
+
+if(!window.rpc){
+	window.rpc = new RpcClient({
+		resolver: new Resolver(),
+		networkId: window.networkId,
+	});
+	console.log(`Connecting to ${window.rpc.url}`);
+	await window.parent.rpc.connect();
+	console.log(`Connected to ${window.rpc.url}`);
+}
+rpc = window.rpc;
+let { isSynced } = await rpc.getServerInfo();
+if (!isSynced) {
+	console.error("Please wait for the node to sync");
+	rpc.disconnect();
+	return;
+}    
     content.style='';
     loading.style='display:none';
-
-    window.networkId = "testnet-11";
-		const encoding = "borsh";
-
-		if(!window.rpc){
-			window.rpc = new RpcClient({
-				resolver: new Resolver(),
-				networkId: window.networkId,
-			});
-			console.log(`Connecting to ${window.rpc.url}`);
-			await window.parent.rpc.connect();
-			console.log(`Connected to ${window.rpc.url}`);
-		}
-		rpc = window.rpc;
-		let { isSynced } = await rpc.getServerInfo();
-		if (!isSynced) {
-			console.error("Please wait for the node to sync");
-			rpc.disconnect();
-			return;
-		}    
   }catch(e){
     content.style='';
     loading.style='display:none';
