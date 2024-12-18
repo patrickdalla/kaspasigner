@@ -21,9 +21,10 @@ var transaction;
     transactionSafeJSON.textContent = urlParams.get('transactionSafeJSON');
     transaction = Transaction.deserializeFromSafeJSON(transactionSafeJSON.textContent);
 
-    window.networkId = "testnet-11";const encoding = "borsh";
+    window.networkId = "testnet-11";
+    const encoding = "borsh";
 
-if(!window.rpc){
+    if(!window.rpc){
 	window.rpc = new RpcClient({
 		resolver: new Resolver(),
 		networkId: window.networkId,
@@ -31,14 +32,14 @@ if(!window.rpc){
 	console.log(`Connecting to ${window.rpc.url}`);
 	await window.parent.rpc.connect();
 	console.log(`Connected to ${window.rpc.url}`);
-}
-rpc = window.rpc;
-let { isSynced } = await rpc.getServerInfo();
-if (!isSynced) {
+    }
+    rpc = window.rpc;
+    let { isSynced } = await rpc.getServerInfo();
+    if (!isSynced) {
 	console.error("Please wait for the node to sync");
 	rpc.disconnect();
 	return;
-}    
+    }    
     content.style='';
     loading.style='display:none';
   }catch(e){
@@ -52,7 +53,7 @@ if (!isSynced) {
 function sign(){
   try{
     var privKeyStr = document.getElementById('privkey').textContent;
-    transaction = signTransaction(transaction, [new PrivateKey(privKeyStr], true);
+    transaction = signTransaction(transaction, [new PrivateKey(privKeyStr)], true);
     transactionSafeJSON.textContent = transaction.serializeToSafeJSON();
   }catch(e){
     alert(e)
