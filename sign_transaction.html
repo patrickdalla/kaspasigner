@@ -11,8 +11,6 @@ let {OpCheckLockTimeVerify, OpBlake2b, OpDrop, OpCheckSig, OpCheckSigVerify, OpD
 var networkId = "testnet-11";	
 var rpc;
 
-globalThis.WebSocket = require('websocket').w3cwebsocket;
-
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
