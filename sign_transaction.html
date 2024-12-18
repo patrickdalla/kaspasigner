@@ -22,7 +22,7 @@ var transaction;
   try{
     const wasm = await kaspa.default("./kaspa/kaspa_bg.wasm");
     transactionSafeJSON.textContent = urlParams.get('transactionSafeJSON');
-    transaction = Transaction.deserializeFromJSON(transactionSafeJSON.textContent);
+    transaction = Transaction.deserializeFromSafeJSON(transactionSafeJSON.textContent);
     content.style='';
     loading.style='display:none';
   }catch(e){
@@ -34,8 +34,9 @@ var transaction;
 
 function sign(){
   try{
-    transaction = Transaction.deserializeFromJSON(transactionSafeJSON.textContent);
-    
+    var privKeyStr = document.getElementById('privkey').textContent;
+    transaction = signTransaction(transaction, [new PrivateKey(privKeyStr], true);
+    transactionSafeJSON.textContent = transaction.serializeToSafeJSON();
   }catch(e){
     alert(e)
   }  
