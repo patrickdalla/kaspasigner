@@ -12,6 +12,7 @@ const urlParams = new URLSearchParams(queryString);
 
 var transactionSafeJSON = document.getElementById('transactionSafeJSON');
 var transaction;
+var isSigned = false;
 
 (async ()=> {
   var content = window.document.getElementById('content');
@@ -55,6 +56,7 @@ function sign(){
     var privKeyStr = document.getElementById('privkey').textContent;
     transaction = signTransaction(transaction, [new PrivateKey(privKeyStr)], true);
     transactionSafeJSON.textContent = transaction.serializeToSafeJSON();
+    isSigned = true;
   }catch(e){
     alert(e)
   }  
@@ -63,6 +65,14 @@ window.sign=sign;
 
 
 function submitTransaction(){
+  if(!isSigned){
+    sign();
+  }
+  if(isSigned){
+	var result = await rpc.submitTransaction(transaction);
+	var result = document.getElementById('privkey');
+	result.textContent = 'Transaction id:'+result.transactionId;	
+  }
 }
 window.submitTransaction=submitTransaction;
 
@@ -79,9 +89,11 @@ The following transaction was sent to be signed:
 Type your privkey:
 <textarea style="width:100%" id="privkey" rows="2">
 </textarea>
+* data input should be in hexadecimal format
+<div id="result">
 <input type="BUTTON" value="Sign" onclick="sign">
 <input type="BUTTON" value="Submit Transaction" onclick="submitTransaction();" disabled>
-* data input should be in hexadecimal format
+</div>
 </div>
 </body>
 
