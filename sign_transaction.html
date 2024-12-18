@@ -5,8 +5,7 @@
   <script type="module">
 import * as kaspa from "./kaspa/kaspa.js";
 
-let {calculateTransactionMass, UtxoEntry, UNACCEPTED_DAA_SCORE,Hash, UtxoProcessor, TransactionOutpoint, UtxoContext, kaspaToSompi, TxScriptEngine, Generator, createInputSignature, sha256dFromBinary,sha256FromBinary,signMessage, XOnlyPublicKey, payToScriptHashSignatureScript,addressFromScriptPublicKey, createTransactions, payToScriptHashScript, Address, Transaction, PublicKey, 	ScriptBuilder, ScriptBuilderResult, PublicKeyGenerator, PrivateKeyGenerator, PrivateKey, createTransaction, signTransaction, RpcClient, Resolver, NetworkId, createAddress, NetworkType, Mnemonic, XPrv} = kaspa;
-let {OpCheckLockTimeVerify, OpBlake2b, OpDrop, OpCheckSig, OpCheckSigVerify, OpDup, OpElse, OpEndIf, OpEqualVerify, OpFalse, OpGreaterThanOrEqual, opnotif, OpSub, OpTrue, OpTxInputAmount, OpTxInputIndex, OpTxInputSpk, OpTxOutputAmount, OpTxOutputSpk} = kaspa;
+let {Transaction} = kaspa;
 
 var networkId = "testnet-11";	
 var rpc;
@@ -15,18 +14,21 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
 var transactionSafeJSON = document.getElementById('transactionSafeJSON');
-transactionSafeJSON.textContent = urlParams.get('transactionSafeJSON');
-alert(queryString);
+var transaction;
+try{
+  transactionSafeJSON.textContent = urlParams.get('transactionSafeJSON');
+  transaction = Transaction.deserializeFromJSON(transactionSafeJSON.textContent);
+}catch(e){
+  alert(e)
+}
 
-    
   </script>
 </head>
 <body>
 The following transaction was sent to be signed:
 <textarea style="width:100%" id="transactionSafeJSON">
-  
-</textarea>q
-    
+</textarea>
+
 </body>
 
 </html>
