@@ -20,18 +20,28 @@ var transaction;
   try{
     const wasm = await kaspa.default("./kaspa/kaspa_bg.wasm");
     transactionSafeJSON.textContent = urlParams.get('transactionSafeJSON');
-    transaction = Transaction.deserializeFromJSON(transactionSafeJSON.textContent);
   }catch(e){
     alert(e)
   }
 })();
 
+function sign(){
+  try{
+    transaction = Transaction.deserializeFromJSON(transactionSafeJSON.textContent);
+    
+  }catch(e){
+    alert(e)
+  }  
+}
+window.sign=sign;
+
   </script>
 </head>
 <body>
 The following transaction was sent to be signed:
-<textarea style="width:100%" id="transactionSafeJSON">
+<textarea style="width:100%" id="transactionSafeJSON" lines="10">
 </textarea>
+<input type="BUTTON" value="Sign" onclick="sign">
 
 </body>
 
