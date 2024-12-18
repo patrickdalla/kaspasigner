@@ -21,6 +21,8 @@ var transaction;
     const wasm = await kaspa.default("./kaspa/kaspa_bg.wasm");
     transactionSafeJSON.textContent = urlParams.get('transactionSafeJSON');
     transaction = Transaction.deserializeFromJSON(transactionSafeJSON.textContent);
+    var content = window.document.getElementById('content');
+    content.style='';
   }catch(e){
     var content = window.document.getElementById('content');
     content.textContent='Invalid transaction format in url param transactionSafeJSON, or it is missing. This page is exclusive to sign transactions.'
@@ -45,7 +47,7 @@ window.submitTransaction=submitTransaction;
   </script>
 </head>
 <body>
-<div id="content">
+<div id="content" style='display:none'>
 The following transaction was sent to be signed:
 <textarea style="width:100%; height=70%;" id="transactionSafeJSON">
 </textarea>
