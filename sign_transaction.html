@@ -31,7 +31,7 @@ var isSigned = false;
 		networkId: window.networkId,
 	});
 	console.log(`Connecting to ${window.rpc.url}`);
-	await window.parent.rpc.connect();
+	await window.rpc.connect();
 	console.log(`Connected to ${window.rpc.url}`);
     }
     rpc = window.rpc;
@@ -91,6 +91,9 @@ Type your privkey:
 </textarea>
 * data input should be in hexadecimal format
 <div id="result">
+<div id="donation">
+<input type="checkbox" value="1" disable/>Consider a donation of 0.01KAS, please (will be included in transaction).
+</div>
 <input type="BUTTON" value="Sign" onclick="sign">
 <input type="BUTTON" value="Submit Transaction" onclick="submitTransaction();" disabled>
 </div>
