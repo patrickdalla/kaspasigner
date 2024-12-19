@@ -20,7 +20,7 @@ var isSigned = false;
   try{
     const wasm = await kaspa.default("./kaspa/kaspa_bg.wasm");
     transactionSafeJSON.textContent = urlParams.get('transactionSafeJSON');
-    transaction = Transaction.deserializeFromSafeJSON(transactionSafeJSON.textContent);
+    transaction = await Transaction.deserializeFromSafeJSON(transactionSafeJSON.textContent);
 
     window.networkId = "testnet-11";
     const encoding = "borsh";
@@ -51,10 +51,10 @@ var isSigned = false;
 })();
 
     
-function sign(){
+async function sign(){
   try{
     var privKeyStr = document.getElementById('privkey').textContent;
-    transaction = signTransaction(transaction, [new PrivateKey(privKeyStr)], true);
+    transaction = await signTransaction(transaction, [new PrivateKey(privKeyStr)], true);
     transactionSafeJSON.textContent = transaction.serializeToSafeJSON();
     isSigned = true;
   }catch(e){
@@ -64,7 +64,7 @@ function sign(){
 window.sign=sign;
 
 
-function submitTransaction(){
+async function submitTransaction(){
   if(!isSigned){
     sign();
   }
