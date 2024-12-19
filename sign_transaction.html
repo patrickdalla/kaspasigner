@@ -71,7 +71,7 @@ function submitTransaction(){
   if(isSigned){
 	var result = await rpc.submitTransaction(transaction);
 	var result = document.getElementById('result');
-	result.textContent = 'Transaction id:'+result.transactionId;	
+	result.textContent = 'Transaction sent id:'+result.transactionId;
   }
 }
 window.submitTransaction=submitTransaction;
