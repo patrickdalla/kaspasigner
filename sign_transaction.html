@@ -46,7 +46,7 @@ var isSigned = false;
   }catch(e){
     content.style='';
     loading.style='display:none';
-    content.innerHTML='1 - Invalid transaction format in url param transactionSafeJSON, or it is missing.<br>2 - This page is exclusive to sign transactions exported as JSON with serializeToSafeJSON Transaction method.<br>3 - This JSON transaction representation must be encoded in url param transactionSafeJSON.'
+    content.innerHTML='<h1>Invalid transaction</h1><p>1 - Invalid transaction format in url param transactionSafeJSON, or it is missing.<br>2 - This page is exclusive to sign transactions exported as JSON with serializeToSafeJSON Transaction method.<br>3 - This JSON transaction representation must be encoded in url param transactionSafeJSON.</p>'
   }
 })();
 
