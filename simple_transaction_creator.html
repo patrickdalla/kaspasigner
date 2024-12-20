@@ -19,8 +19,6 @@ var isSigned = false;
   var loading = window.document.getElementById('loading');
   try{
     const wasm = await kaspa.default("./kaspa/kaspa_bg.wasm");
-    transactionSafeJSON.textContent = urlParams.get('transactionSafeJSON');
-    transaction = await Transaction.deserializeFromSafeJSON(transactionSafeJSON.textContent);
 
     window.networkId = "testnet-11";
     const encoding = "borsh";
