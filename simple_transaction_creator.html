@@ -48,7 +48,7 @@ async function submitTransaction(){
     var srcAddress = document.getElementById('srcAddress').value;
     var dstAddress = document.getElementById('dstAddress').value;
     var amount = BigInt(document.getElementById('amount').value);
-    var transaction = await createTransaction({address:srcAddress}, [{address:destAddress, amount:amount}], 10000);
+    var transaction = await createTransaction({address:srcAddress}, [{address:dstAddress, amount:amount}], 10000);
     var result = document.getElementById('result');
 
     window.location='?transactionSafeJSON=' + encodeURI(await transaction.serializeToSafeJSON());
