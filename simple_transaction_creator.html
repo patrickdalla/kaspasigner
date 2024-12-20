@@ -51,9 +51,9 @@ var isSigned = false;
 async function submitTransaction(){
     var srcAddress = document.getElementById('srcAddress').value;
     var dstAddress = document.getElementById('dstAddress').value;
-    var amount = BigInt(document.getElementById('dstAddress').value);
-	  var transaction = await createTransaction({address:srcAddress}, [{address:destAddress, amount:amount}], 10000);
-	  var result = document.getElementById('result');
+    var amount = BigInt(document.getElementById('amount').value);
+    var transaction = await createTransaction({address:srcAddress}, [{address:destAddress, amount:amount}], 10000);
+    var result = document.getElementById('result');
 
     window.location='?transactionSafeJSON=' + encodeURI(await transaction.serializeToSafeJSON());
 }
@@ -77,7 +77,7 @@ window.submitTransaction=submitTransaction;
     </tr>
     <tr>
       <td>Amount:</td>
-      <td><input type="text" value="" minlength="1" length="10"/>KAS</td>
+      <td><input type="text" id="amount" value="" minlength="1" length="10"/>KAS</td>
     </tr>
   </table>
 <div id="result">
