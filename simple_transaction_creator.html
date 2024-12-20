@@ -5,14 +5,7 @@
   <script type="module">
 import * as kaspa from "./kaspa/kaspa.js";
 
-let {Transaction} = kaspa;
-
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-
-var transactionSafeJSON = document.getElementById('transactionSafeJSON');
-var transaction;
-var isSigned = false;
+let {Transaction, RpcClient, Resolver, createTransaction} = kaspa;
 
 (async ()=> {
   var content = window.document.getElementById('content');
