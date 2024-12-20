@@ -22,7 +22,10 @@ let {Transaction, RpcClient, Resolver, createTransaction} = kaspa;
 		networkId: window.networkId,
 	});
 	console.log(`Connecting to ${window.rpc.url}`);
-	await Promise.race([window.rpc.connect(), (async () => {await new Promise((res) => setTimeout(res, 500));return "p2";})()]);
+	a = await Promise.race([window.rpc.connect(), (async () => {await new Promise((res) => setTimeout(res, 500));return "p2";})()]);
+	if(a=="p2"){
+		throw "Error connecting with kaspa RPC server";
+	}
 	console.log(`Connected to ${window.rpc.url}`);
     }
     rpc = window.rpc;
@@ -37,7 +40,7 @@ let {Transaction, RpcClient, Resolver, createTransaction} = kaspa;
   }catch(e){
     content.style='';
     loading.style='display:none';
-    content.innerHTML='<h1>Invalid transaction</h1><p>1 - Invalid transaction format in url param transactionSafeJSON, or it is missing.<br>2 - This page is exclusive to sign transactions exported as JSON with serializeToSafeJSON Transaction method.<br>3 - This JSON transaction representation must be encoded in url param transactionSafeJSON.</p>'
+    content.innerHTML='<h1>RPC connection error</h1><p>'+e+'</p>'
   }
 })(); 
 
