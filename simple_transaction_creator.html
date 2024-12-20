@@ -1,0 +1,97 @@
+<html>
+<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE"/>
+<META HTTP-EQUIV="EXPIRES" CONTENT="Mon, 22 Jul 2002 11:00:00 GMT"/>
+<head>
+  <script type="module">
+import * as kaspa from "./kaspa/kaspa.js";
+
+let {Transaction} = kaspa;
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+
+var transactionSafeJSON = document.getElementById('transactionSafeJSON');
+var transaction;
+var isSigned = false;
+
+(async ()=> {
+  var content = window.document.getElementById('content');
+  var loading = window.document.getElementById('loading');
+  try{
+    const wasm = await kaspa.default("./kaspa/kaspa_bg.wasm");
+    transactionSafeJSON.textContent = urlParams.get('transactionSafeJSON');
+    transaction = await Transaction.deserializeFromSafeJSON(transactionSafeJSON.textContent);
+
+    window.networkId = "testnet-11";
+    const encoding = "borsh";
+
+    if(!window.rpc){
+	window.rpc = new RpcClient({
+		resolver: new Resolver(),
+		networkId: window.networkId,
+	});
+	console.log(`Connecting to ${window.rpc.url}`);
+	await window.rpc.connect();
+	console.log(`Connected to ${window.rpc.url}`);
+    }
+    rpc = window.rpc;
+    let { isSynced } = await rpc.getServerInfo();
+    if (!isSynced) {
+	console.error("Please wait for the node to sync");
+	rpc.disconnect();
+	return;
+    }    
+    content.style='';
+    loading.style='display:none';
+  }catch(e){
+    content.style='';
+    loading.style='display:none';
+    content.innerHTML='<h1>Invalid transaction</h1><p>1 - Invalid transaction format in url param transactionSafeJSON, or it is missing.<br>2 - This page is exclusive to sign transactions exported as JSON with serializeToSafeJSON Transaction method.<br>3 - This JSON transaction representation must be encoded in url param transactionSafeJSON.</p>'
+  }
+})(); 
+
+async function submitTransaction(){
+    var srcAddress = document.getElementById('srcAddress').value;
+    var dstAddress = document.getElementById('dstAddress').value;
+    var amount = BigInt(document.getElementById('dstAddress').value);
+	  var transaction = await createTransaction({address:srcAddress}, [{address:destAddress, amount:amount}], 10000);
+	  var result = document.getElementById('result');
+
+    window.location='?transactionSafeJSON=' + encodeURI(await transaction.serializeToSafeJSON());
+}
+window.submitTransaction=submitTransaction;
+
+  </script>
+</head>
+<body>
+<div id="loading">
+  loading...
+</div>
+<div id="content" style='display:none'>
+  <table>
+    <tr>
+      <td>Input:</td>
+      <td>Source Address:<input type="text" id="srcAddress" value="" minlength="25" length="40"/></td>
+    </tr>
+    <tr>
+      <td>Output:</td>
+      <td>Dest Address:<input type="text" id="dstAddress" value="" minlength="25" length="40"/></td>
+    </tr>
+    <tr>
+      <td>Amount:</td>
+      <td><input type="text" value="" minlength="1" length="10"/>KAS</td>
+    </tr>
+  </table>
+<div id="result">
+<div id="donation">
+<input type="checkbox" value="1" disable/>Consider a donation of 0.01KAS, please (will be included in transaction).
+</div>
+<input type="BUTTON" value="Submit Transaction" onclick="submitTransaction();" disabled>
+</div>
+  
+</div>
+*All signature execution is done on client side. No info is sent about the privatekey used. When pressing submit transaction, only the signed transaction is submited.<br>
+*Source code can be verified and audited on client side. It is alss published at <a href="https://github.com/patrickdalla/kaspasigner/tree/main">Github repo</a>.
+</body>
+
+</html>
